@@ -2,7 +2,7 @@
 
 abstract class Controller
 {
-    public function view($path, $data)
+    public function view($path, $data = [])
     {
         foreach ($data as $key => $value) {
             $$key = $value;

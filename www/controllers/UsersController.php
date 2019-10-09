@@ -7,9 +7,10 @@ class UsersController extends Controller
     public function index()
     {
         $model = new User();
-        $users = $model->all();
 
-        return $this->view('users/index');
+        return $this->view('users/index', [
+            'users' => $model->all(),
+        ]);
 
     }
 }

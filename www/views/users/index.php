@@ -13,7 +13,7 @@
     <ul>
         <?php foreach ($users as $user): ?>
             <li>
-                <?= $user[1] . "__" . $user[2] ?>
+                <?= $user[1]?>
             </li>
         <?php endforeach; ?>
     </ul>

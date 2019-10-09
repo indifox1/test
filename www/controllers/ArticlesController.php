@@ -20,7 +20,7 @@ class ArticlesController extends Controller
 
     public function create()
     {
-
+        return $this->view('articles/create');
     }
 
     public function store()
