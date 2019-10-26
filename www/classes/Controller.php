@@ -6,6 +6,7 @@ abstract class Controller
     {
         foreach ($data as $key => $value) {
             $$key = $value;
+//            $articles = rows;
 
         }
 

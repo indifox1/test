@@ -1,36 +1,22 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
-</body>
-</html>
 <?php
 require_once 'controllers/ArticlesController.php';
 require_once 'controllers/UsersController.php';
-
-function dd($x)
-{
-    echo '<pre>';
-    var_dump($x);
-    die();
-}
+require_once 'helpers/helpers.php';
 
 $requestParts = explode('/', $_SERVER['REQUEST_URI']);
 $controllerName = ucfirst($requestParts[1]) . 'Controller';
-$actionName = $requestParts[2];
-//dd($actionName);
+if (is_numeric($requestParts[2])) {
+    $actionName = $requestParts[3];
+    $id = $requestParts[2];
+} else {
+    $actionName = $requestParts[2];
+    $id = null;
+}
 
 $controller = new $controllerName;
+if ($id) {
 
-$controller->$actionName();
-?>
-
-
+    $controller->$actionName($id);
+} else {
+    $controller->$actionName();
+}

@@ -2,11 +2,17 @@
 
 class Database
 {
-    public $connection;
+    private $dbh;
 
     public function __construct()
     {
-        $this->connection = mysqli_connect('localhost', 'root', '', 'test');
+        $this->dbh = new PDO('mysql:dbname=test; host=localhost', 'root', '');
     }
 
+    public function query($sql, $params = [])
+    {
+        $sth = $this->dbh->prepare($sql);
+        $sth->execute($params);
+        return $sth->fetchAll(PDO::FETCH_OBJ);
+    }
 }
