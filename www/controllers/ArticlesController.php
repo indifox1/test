@@ -59,7 +59,8 @@ class ArticlesController extends Controller
         ];
         $model = new Article();
         $model->create($data);
-        header('location: index');
+
+        return redirect('/articles/index');
     }
 
     /**
@@ -72,9 +73,11 @@ class ArticlesController extends Controller
     {
         $model = new Article();
         $article = $model->find($id);
+
         $data = [
             'article' => $article
         ];
+
         return $this->view('articles/edit', $data);
 
     }
@@ -92,7 +95,7 @@ class ArticlesController extends Controller
         $model = new Article();
         $model->update($id, $data);
 
-        header('location: edit');
+        return redirect('/articles/index');
 
     }
 
@@ -109,8 +112,6 @@ class ArticlesController extends Controller
         $model = new Article();
         $model->delete($id, $data);
 
-
-        header('location: index');
-
+        return redirect('/articles/index');
     }
 }

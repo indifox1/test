@@ -6,7 +6,8 @@ function dd($x)
     var_dump($x);
     die();
 }
-function redirect($path){
-    header('location: '.$path);
 
+function redirect($path)
+{
+    return header('location: ' . $path);
 }

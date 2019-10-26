@@ -13,6 +13,7 @@ class Database
     {
         $sth = $this->dbh->prepare($sql);
         $sth->execute($params);
+
         return $sth->fetchAll(PDO::FETCH_OBJ);
     }
 }

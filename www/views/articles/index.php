@@ -7,7 +7,7 @@
                 <a href="/articles/create" role="button" class="btn btn-success btn-sm pull-right">Create</a>
             </div>
             <div class="card-body p-0">
-                <table class="table">
+                <table class="table m-0">
                     <thead style="background-color: #b9cdd5">
                     <tr>
                         <th>Name</th>

@@ -13,44 +13,56 @@ abstract class Model
 
     public function all()
     {
-        $sql = "SELECT * FROM " . $this->table;
+        $sql = "SELECT * FROM `{$this->table}`";
 
         return $this->database->query($sql);
     }
 
     public function create($data)
     {
-        $sql = "INSERT INTO " . $this->table . "(name, published)
-        VALUES ('" . $data['name'] . "', " . $data['published'] . ")";
+        $columnsArray = [];
+        $valuesArray = [];
+
+        foreach ($data as $key => $value) {
+            $columnsArray[] = "`{$key}`";
+
+            if (is_string($value)) {
+                $valuesArray[] = "'{$value}'";
+            } else {
+                $valuesArray[] = "{$value}";
+            }
+        }
+
+        $columnsString = implode(', ', $columnsArray);
+        $valuesString = implode(', ', $valuesArray);
+
+        $sql = "INSERT INTO `{$this->table}` ({$columnsString}) VALUES ({$valuesString})";
 
         return $this->database->query($sql);
     }
 
     public function update($id, $data)
     {
-        $set = '';
-        $x = 1;
+        $updateArray = [];
 
-        foreach ($data as $name => $value) {
-            $set .= "{$name} = \"{$value}\"";
-            if ($x < count($data)) {
-                $set .= ',';
+        foreach ($data as $key => $value) {
+            if (is_string($value)) {
+                $updateArray[] = "`{$key}` = '{$value}'";
+            } else {
+                $updateArray[] = "`{$key}` = {$value}";
             }
-            $x++;
         }
 
-        $sql = "UPDATE {$data} SET {$set} WHERE id = {$id}";
+        $updateString = implode(', ', $updateArray);
 
-        if (!$this->query($sql, $data)->error()) {
-            return true;
-        }
+        $sql = "UPDATE `{$this->table}` SET {$updateString} WHERE `id` = {$id}";
 
-        return false;
+        return $this->database->query($sql);
     }
 
     public function delete($id)
     {
-        $sql = "DELETE FROM " . $this->table . " WHERE id = {$id}";
+        $sql = "DELETE FROM `{$this->table}` WHERE `id` = {$id}";
 
         return $this->database->query($sql);
 
@@ -58,8 +70,10 @@ abstract class Model
 
     public function find($id)
     {
-        $sql = "SELECT * FROM " . $this->table . " WHERE `id`='" . $id . "'";
+        $sql = "SELECT * FROM `{$this->table}` WHERE `id` = {$id}";
 
-        return $this->database->query($sql);
+        $result = $this->database->query($sql);
+
+        return $result[0];
     }
 }
