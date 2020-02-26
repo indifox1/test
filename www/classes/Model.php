@@ -3,76 +3,65 @@ require_once __DIR__ . '/../classes/Database.php';
 
 abstract class Model
 {
-    public $table;
-    public $database;
+    public static $table;
 
-    public function __construct()
+    public static function all()
     {
-        $this->database = new Database();
+        $table = static::$table;
+        $sql = "SELECT * FROM `{$table}`";
+        $database = new Database();
+
+        return $database->query($sql);
+
     }
 
-    public function all()
+    public static function create($data)
     {
-        $sql = "SELECT * FROM `{$this->table}`";
-
-        return $this->database->query($sql);
-    }
-
-    public function create($data)
-    {
-        $columnsArray = [];
-        $valuesArray = [];
-
-        foreach ($data as $key => $value) {
-            $columnsArray[] = "`{$key}`";
-
-            if (is_string($value)) {
-                $valuesArray[] = "'{$value}'";
-            } else {
-                $valuesArray[] = "{$value}";
-            }
+        $dataToInsert = [];
+        $cols = array_keys($data); // названия столбцов
+        foreach ($cols as $col) {
+            $dataToInsert[':' . $col] = $data[$col];
         }
+        $sql = 'INSERT INTO ' . static::$table . '(' . implode(', ', $cols) . ') VALUES (' . implode(', ', array_keys($dataToInsert)) . ')';
+        $db = new Database();
 
-        $columnsString = implode(', ', $columnsArray);
-        $valuesString = implode(', ', $valuesArray);
-
-        $sql = "INSERT INTO `{$this->table}` ({$columnsString}) VALUES ({$valuesString})";
-
-        return $this->database->query($sql);
+        return $db->query($sql, $dataToInsert);
     }
 
     public function update($id, $data)
     {
-        $updateArray = [];
-
-        foreach ($data as $key => $value) {
-            if (is_string($value)) {
-                $updateArray[] = "`{$key}` = '{$value}'";
-            } else {
-                $updateArray[] = "`{$key}` = {$value}";
-            }
+        $cols = array_keys($data); // названия столбцов
+        $dataToUpdate = [':id' => $id];
+        $dataV = [];
+        foreach ($cols as $col) {
+            $dataToUpdate[':' . $col] = $data[$col];
+            $dataV[$col] = $col . '=:' . $col;
         }
+        $sql = 'UPDATE ' . static::$table . ' SET ' . implode(', ', $dataV) . ' WHERE id=:id';
+        $db = new Database();
 
-        $updateString = implode(', ', $updateArray);
-
-        $sql = "UPDATE `{$this->table}` SET {$updateString} WHERE `id` = {$id}";
-
-        return $this->database->query($sql);
+        return $db->query($sql, $dataToUpdate);
     }
+
 
     public function delete($id)
     {
-        $sql = "DELETE FROM `{$this->table}` WHERE `id` = {$id}";
+        $table = static::$table;
 
-        return $this->database->query($sql);
+        $sql = "DELETE FROM `{$table}` WHERE `id` = {$id}";
+        $database = new Database();
+
+        return $database->query($sql);
 
     }
 
-    public function find($id)
+    public static function find($id)
     {
-        $sql = "SELECT * FROM `{$this->table}` WHERE `id` = {$id}";
+        $table = static::$table;
+        $sql = "SELECT * FROM `{$table}` WHERE `id` = {$id}";
+        $database = new Database();
 
-        $result = $this->database->query($sql);
+        $result = $database->query($sql);
 
         return $result[0];
     }

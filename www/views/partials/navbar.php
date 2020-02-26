@@ -12,18 +12,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/users/index">Users</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/products/index">Product</a>
+            </li>
         </ul>
-    </div>
-    <div class="dropdown">
-        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-           aria-haspopup="true" aria-expanded="false">
-
-        </a>
-
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="/articles/index">Home</a>
-            <a class="dropdown-item" href="/articles/index">Articles</a>
-            <a class="dropdown-item" href="/users/index">Users</a>
-        </div>
     </div>
 </nav>

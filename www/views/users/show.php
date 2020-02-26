@@ -7,8 +7,8 @@
                     <p class="card-text">
                         Name: <?= $user->name ?>
                     </p>
-                    <a href="/articles/<?= $user->id ?>/edit" class="btn btn-primary">Edit</a>
-                    <a href="/articles/<?= $user->id ?>/destroy" class="btn btn-danger">Delete</a>
+                    <a href="/users/<?= $user->id ?>/edit" class="btn btn-primary">Edit</a>
+                    <a href="/users/<?= $user->id ?>/destroy" class="btn btn-danger">Delete</a>
 
                 </div>
             </div>

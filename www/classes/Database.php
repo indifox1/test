@@ -17,3 +17,4 @@ class Database
         return $sth->fetchAll(PDO::FETCH_OBJ);
     }
 }
+

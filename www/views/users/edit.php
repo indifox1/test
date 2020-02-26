@@ -3,19 +3,14 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex align-items-center py-2">
-                    Edit Articles <?= $article->name ?>
+                    Edit Users <?= $users->name ?>
                 </div>
                 <div class="card-body">
-                    <form action="/articles/<?= $article->id ?>/update" method="post">
+                    <form action="/users/<?= $users->id ?>/update" method="post">
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="John Doe"
-                                   value="<?= $article->name ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="published">Published</label>
-                            <input type="text" name="published" class="form-control" id="published" placeholder="1"
-                                   value="<?= $article->published ?>">
+                                   value="<?= $users->name ?>">
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>

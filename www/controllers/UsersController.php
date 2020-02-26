@@ -65,11 +65,11 @@ class UsersController extends Controller
     public function edit($id)
     {
         $model = new User();
-        $article = $model->find($id);
+        $users = $model->find($id);
         $data = [
-            'article' => $article
+            'users' => $users
         ];
-        return $this->view('articles/edit', $data);
+        return $this->view('users/edit', $data);
 
     }
 
@@ -81,12 +81,11 @@ class UsersController extends Controller
     {
         $data = [
             'name' => $_POST['name'],
-            'published' => $_POST['published']
         ];
         $model = new User();
         $model->update($id, $data);
 
-        header('location: edit');
+        header('location: index');
 
     }
 

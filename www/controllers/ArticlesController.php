@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/Article.php';
 require_once __DIR__ . '/../classes/Controller.php';
+require_once __DIR__ . '/../classes/View.php';
 
 class ArticlesController extends Controller
 {
@@ -12,13 +13,12 @@ class ArticlesController extends Controller
      */
     public function index()
     {
-        $model = new Article();
-        $articles = $model->all();
-        $data = [
-            'articles' => $articles
-        ];
+        $articles = Article::all();
+        dd($articles);
+        $view = new View();
+        $view->assign('articles', $articles);
+        $view->display('articles/index');
 
-        return $this->view('articles/index', $data);
     }
 
     /**
@@ -28,8 +28,7 @@ class ArticlesController extends Controller
      */
     public function show($id)
     {
-        $model = new Article();
-        $article = $model->find($id);
+        $article = Article::find($id);
         $data = [
             'article' => $article
         ];
@@ -57,8 +56,7 @@ class ArticlesController extends Controller
             'name' => $_POST['name'],
             'published' => $_POST['published']
         ];
-        $model = new Article();
-        $model->create($data);
+        Article::create($data);
 
         return redirect('/articles/index');
     }
@@ -71,8 +69,7 @@ class ArticlesController extends Controller
      */
     public function edit($id)
     {
-        $model = new Article();
-        $article = $model->find($id);
+        $article = Article::find($id);
 
         $data = [
             'article' => $article
@@ -92,9 +89,8 @@ class ArticlesController extends Controller
             'name' => $_POST['name'],
             'published' => $_POST['published']
         ];
-        $model = new Article();
-        $model->update($id, $data);
-
+        $article = new Article();
+        $article->update($id, $data);
         return redirect('/articles/index');
 
     }
@@ -105,12 +101,8 @@ class ArticlesController extends Controller
      */
     public function destroy($id)
     {
-        $data = [
-            'name' => $_POST['name'],
-            'published' => $_POST['published']
-        ];
-        $model = new Article();
-        $model->delete($id, $data);
+        $article = new Article();
+        $article->delete($id);
 
         return redirect('/articles/index');
     }
